@@ -8,6 +8,11 @@ from basic_imports import *
 def execute_bash_command(command, password):
     """
         Function to Execute Bash commant using subprocess module
+        :param command: Shell command to be executed
+        :type  command: string
+
+        :param password: Postgres password
+        :type  password: string
     """
     try:
         os.putenv('PGPASSWORD', password)
@@ -28,7 +33,7 @@ def table_dump():
         for table_name in config.TABLE_LIST:
             bash_command += '--table=' + str(table_name) + ' '
         bash_command += config.SOURCE['db'] + ' > ' + \
-            config.DUMP_DIR + config.TABLE_DUMP_FILE_NAME
+            config.DUMP_DIR + config.TABLE_DUMP_FILE
 
         LOGGER.info("PG Dump for Given Table Started at: {now}".format(
             now=datetime.datetime.now()))
@@ -51,11 +56,11 @@ def table_restore():
             'port'],
             db=config.OUTCOME[
             'db'],
-            dump_file=config.TABLE_DUMP_FILE_NAME)
-        LOGGER.info("Restorationg of the Given Table Started at: {now}".format(
+            dump_file=config.DUMP_DIR+config.TABLE_DUMP_FILE)
+        LOGGER.info("Restoration of the given table started at: {now}".format(
             now=datetime.datetime.now()))
         execute_bash_command(bash_command, config.OUTCOME['password'])
-        LOGGER.info("Restorationg of the Given Table Completed at: {now}".format(
+        LOGGER.info("Restoration of the given table completed at: {now}".format(
             now=datetime.datetime.now()))
     except Exception as e:
         msg = "table_restore: Table restore failed due to Error:{err}".format(
