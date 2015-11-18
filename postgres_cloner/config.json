@@ -1,0 +1,23 @@
+{ 
+	"TABLE_LIST" : [
+	    "t_random"
+	],
+	"SOURCE" : {
+	    "port": 5432,
+	    "user": "chinka",
+	    "password": "",
+	    "db": "mydb"
+	},
+
+	"OUTOME" : {
+	    "port": 5432,
+	    "user": "",
+	    "password": "",
+	    "db": "outcome_db"
+	},
+
+	"DUMP_DIR" : "/Users/chinka/Desktop/dummy/",
+
+	"TABLE_DUMP_FILE" : "dump.pg"
+
+}
