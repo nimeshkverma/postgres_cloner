@@ -2,7 +2,14 @@ import os
 import subprocess
 import datetime
 import json
-from basic_imports import *
+import logging
+
+LOGGER = logging.getLogger("search_relevance_app")
+LOGGER_PATH = "postgres_clone_log.log"
+logging.basicConfig(filename=LOGGER_PATH, level=logging.INFO,
+                    format='%(asctime)s.%(msecs)d %(levelname)s %(module)s - %(funcName)s: %(message)s', datefmt="%Y-%m-%d %H:%M:%S")
+
+
 
 class CustomError(Exception):
     def __init__(self, arg):
@@ -34,6 +41,7 @@ class PostgresCloner:
             data = json.load(jsonfile)
             if set(data.keys()) != set(required_keys):
                 msg = "Invalid file! Please specify a file of the following format : {}"
+                raise CustomError(msg)
                 exit()
 
             TABLE_LIST = data['TABLE_LIST']
@@ -41,12 +49,8 @@ class PostgresCloner:
             OUTCOME = data['OUTCOME']
             DUMP_DIR = data['DUMP_DIR']
             TABLE_DUMP_FILE = data['TABLE_DUMP_FILE']
+            LOGGER_PATH = data['logger_path']
 
-        print TABLE_LIST
-        print SOURCE
-        print OUTCOME
-        print DUMP_DIR
-        print TABLE_DUMP_FILE
         self.clone()
 
 
